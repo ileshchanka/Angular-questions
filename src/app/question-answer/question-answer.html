@@ -1,0 +1,72 @@
+<section class="qa-container">
+  <!-- Controls -->
+  <div class="qa-controls">
+    <div class="qa-control-group">
+      <label for="category-select">Категория:</label>
+      <select
+        id="category-select"
+        [ngModel]="selectedCategory()"
+        (ngModelChange)="selectedCategory.set($event); onCategoryChange()"
+        class="qa-select"
+      >
+        @for (cat of categories(); track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="qa-control-group">
+      <label for="mode-select">Режим:</label>
+      <select
+        id="mode-select"
+        [ngModel]="mode()"
+        (ngModelChange)="mode.set($event); onModeChange()"
+        class="qa-select"
+      >
+        <option value="random">Рандомно</option>
+        <option value="sequential">По порядку</option>
+      </select>
+    </div>
+
+    <div class="qa-control-group">
+      <label for="question-select">Вопрос по ID:</label>
+      <select
+        id="question-select"
+        [ngModel]="selectedQuestionId()"
+        (ngModelChange)="selectedQuestionId.set(toNumber($event)); onQuestionIdChange()"
+        class="qa-select"
+      >
+        <option [value]="null">--Все вопросы--</option>
+        @for (q of filteredQuestions(); track q.id) {
+          <option [value]="q.id">ID {{ q.id }}: {{ q.question.substring(0, 40) }}...</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Question Card -->
+  <div class="qa-card">
+    @if (current() !== null) {
+      <p class="qa-counter">Вопрос {{ questionNumber() }} из {{ total() }}</p>
+      <p class="qa-category">{{ current()?.category }}</p>
+
+      <h2 class="qa-question">{{ current()?.question }}</h2>
+
+      @if (showAnswer()) {
+        <p class="qa-answer">{{ current()?.answer }}</p>
+      }
+
+      <div class="qa-actions">
+        <button type="button" (click)="toggleAnswer()" class="qa-button qa-button-primary">
+          {{ showAnswer() ? 'Скрыть ответ' : 'Показать ответ' }}
+        </button>
+        <button type="button" (click)="nextQuestion()" class="qa-button qa-button-secondary">
+          {{ selectedQuestionId() !== null ? 'Вернуться' : 'Следующий вопрос' }}
+        </button>
+      </div>
+    } @else {
+      <p class="qa-no-questions">Нет вопросов в выбранной категории</p>
+    }
+  </div>
+</section>
+

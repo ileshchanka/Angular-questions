@@ -48,6 +48,10 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "github-pages": {
+              "baseHref": "/Angular-questions/",
+              "outputPath": "dist/angular-questions-ghpages"
             }
           },
           "defaultConfiguration": "production"
