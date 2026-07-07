@@ -1,6 +1,18 @@
 # AngularQuestions
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.5.
+Интерактивное приложение для подготовки к собеседованиям по Angular с 150+ вопросами и ответами.
+
+## 🚀 Демо (Live Demo)
+
+**➡️ [Открыть приложение](https://ileshchanka.github.io/Angular-questions/)**
+
+## 📝 Описание
+
+Приложение содержит 150+ вопросов по Angular (версии 16-22) с полными ответами. Позволяет:
+- Фильтровать вопросы по категориям
+- Выбирать режим просмотра (рандомно или по порядку)
+- Искать вопросы по ID
+- Изучать полные ответы с объяснениями
 
 ## Development server
 
@@ -35,6 +47,21 @@ ng build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Deployment to GitHub Pages
+
+To build and deploy to GitHub Pages, run:
+
+```bash
+npm run deploy:gh-pages
+```
+
+This will:
+1. Build the application with correct `baseHref` for GitHub Pages
+2. Deploy to the `gh-pages` branch
+3. Your app will be available at: https://ileshchanka.github.io/Angular-questions/
+
+For more deployment details, see [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md)
 
 ## Running unit tests
 
