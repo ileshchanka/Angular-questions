@@ -53,7 +53,7 @@
       <h2 class="qa-question">{{ current()?.question }}</h2>
 
       @if (showAnswer()) {
-        <p class="qa-answer">{{ current()?.answer }}</p>
+        <div class="qa-answer" #answerEl [innerHTML]="current()?.answer"></div>
       }
 
       <div class="qa-actions">

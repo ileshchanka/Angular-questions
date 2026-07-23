@@ -1,8 +1,16 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, effect, ElementRef, signal, viewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {type QaItem} from '../data/questions';
 import questionsData from '../questions.json';
+import hljs from 'highlight.js/lib/core';
+import typescript from 'highlight.js/lib/languages/typescript';
+import xml from 'highlight.js/lib/languages/xml';
+import bash from 'highlight.js/lib/languages/bash';
+
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('html', xml);
+hljs.registerLanguage('bash', bash);
 
 interface QuestionWithId extends QaItem {
   id: number;
@@ -19,6 +27,8 @@ type Mode = 'sequential' | 'random';
   imports: [CommonModule, FormsModule],
 })
 export class QuestionAnswer {
+  private readonly answerEl = viewChild<ElementRef<HTMLElement>>('answerEl');
+
   // Signals for UI controls
   protected readonly selectedCategory = signal<string>('All');
   protected readonly selectedQuestionId = signal<number | null>(null);
@@ -63,6 +73,19 @@ export class QuestionAnswer {
   constructor() {
     // Initialize with random order
     this.initializeQuestions();
+
+    // Highlight code blocks whenever the displayed answer changes
+    effect(() => {
+      this.current();
+      this.showAnswer();
+      const el = this.answerEl();
+      if (!el) return;
+      queueMicrotask(() => {
+        el.nativeElement.querySelectorAll<HTMLElement>('pre code').forEach(block => {
+          hljs.highlightElement(block);
+        });
+      });
+    });
   }
 
   protected onCategoryChange(): void {
